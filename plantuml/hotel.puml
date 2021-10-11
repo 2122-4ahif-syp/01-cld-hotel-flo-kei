@@ -1,0 +1,87 @@
+@startuml
+
+class HotelRoom {
+    - roomNumber: int
+    - maxPeople: int
+    - category: categoryId
+}
+
+class Category {
+    - categoryId: int
+    - categoryName: string
+}
+
+class Employee {
+    - svnr: int
+    - name: string
+    - address: string
+}
+
+class CleanerRoom {
+    - cleanerEmployeeSvnr: int
+    - roomNumber: int
+    - cleanDate: date
+}
+
+class Supervisor {
+    - employeeSvnr: int
+    - specialization: string
+}
+
+class Guest {
+    - guestNumber: int
+    - name: string
+    - address: string
+}
+
+class Booking {
+    - guestNumber: int
+    - bookingNumber: int
+    - dateOfArrival: date
+    - dateOfDeparture: date
+}
+
+class ServicePackage {
+    - serviceName: string
+    - price: bigDecimal
+    - isLuxurious: bool
+}
+
+class LuxuriousPackage {
+    - serviceName: string
+}
+
+class basePackageLuxuriousPackage {
+    - luxuriousPackageName: string
+    - basePackageName: string
+}
+
+class BookingServicePackage {
+    - bookingNumber: int
+    - servicePackageName: string
+    - amount: int
+}
+
+class ServicePackageSupervisor {
+    - servicePackageName: string
+    - supervisorEmployeeSvnr: int
+}
+
+HotelRoom "*" --> "1" Category
+Supervisor "0..1" --|> "1" Employee
+CleanerRoom "*" --> "1" Employee
+CleanerRoom "*" --> "1" HotelRoom
+
+Booking "*" --> "1" Guest
+
+LuxuriousPackage "0..1" --|> "1" ServicePackage
+basePackageLuxuriousPackage "1..n" --> "1" LuxuriousPackage
+basePackageLuxuriousPackage "*" --> "1" ServicePackage
+
+BookingServicePackage "*" --> "1" Booking
+BookingServicePackage "*" --> "1" ServicePackage
+
+ServicePackageSupervisor "*" --> "1" Supervisor
+ServicePackageSupervisor "1..n" --> "1" ServicePackage
+
+@enduml
